@@ -1,6 +1,7 @@
 package com.example.turecallerdialog.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.turecallerdialog.R
 import com.example.turecallerdialog.adapter.ContactListAdapter
 import com.example.turecallerdialog.database.AppDatabase
@@ -15,6 +17,9 @@ import com.example.turecallerdialog.databinding.FragmentContactBinding
 import com.example.turecallerdialog.ui.viewmodel.ContactViewModel
 import com.example.turecallerdialog.utility.setCollapsingToolbarLayoutTitle
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ContactFragment  :  Fragment() {
 
@@ -60,23 +65,69 @@ class ContactFragment  :  Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        adpater= ContactListAdapter { data ->
+        adpater= ContactListAdapter ({ data ->
 
 
-            activity?.let {
+            /*activity?.let {
                 val newFragment = CustomDialogFragment.newInstance(data)
                 newFragment.show(parentFragmentManager,CustomDialogFragment.TAG)
+
+            }*/
+
+
+        },{
+            data, isChecked ->
+
+            lifecycleScope.launch(Dispatchers.IO){
+
+                data.isChecked = isChecked
+                viewModel.insertNickName(model = data)
+
+            }
+
+        })
+
+
+
+            viewModel.getContact().value.let {
+
+                when(it) {
+                    null ->{
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            viewModel.insertContacts()
+                        }
+                    }
+
+                    else -> {
+
+                    }
+
+                }
+
+
 
             }
 
 
-        }
+
+
+
+
 
         viewModel.getContact().observe(viewLifecycleOwner, Observer { data ->
 
+
+            Log.e("Observed", "-->")
             adpater.setData(data)
 
+
+
         })
+
+
+
+
+
 
         binding.rePhoneContact.adapter = adpater
 

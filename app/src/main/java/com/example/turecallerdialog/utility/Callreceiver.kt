@@ -6,30 +6,30 @@ import android.util.Log
 import android.widget.Toast
 import com.example.turecallerdialog.database.AppDatabase
 import com.example.turecallerdialog.ui.activity.DialogCheckActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
 
 
 class Callreceiver : PhonecallReceiver()
 {
     override fun onIncomingCallStarted(ctx: Context?, number: String?, start: Date?) {
-       Toast.makeText(ctx, "number-->$number", Toast.LENGTH_LONG).show()
+      // Toast.makeText(ctx, "number-->$number", Toast.LENGTH_LONG).show()
 
 
-        number?.let {
-            callDialog(ctx,it)
-
+        ctx.let {ctxs ->
+            number?.let {
+                callDialog(ctxs,it)
+            }
         }
+
+
 
       //  Log.e("TAG", "--->onIncomingCallStarted")
     }
 
     override fun onOutgoingCallStarted(ctx: Context?, number: String?, start: Date?) {
 
-       Toast.makeText(ctx, "number-->$number", Toast.LENGTH_LONG).show()
+       //Toast.makeText(ctx, "number-->$number", Toast.LENGTH_LONG).show()
        // Log.e("TAG", "--->onOutgoingCallStarted")
         number?.let {
             callDialog(ctx,it)
@@ -52,10 +52,10 @@ class Callreceiver : PhonecallReceiver()
         //Toast.makeText(ctx, "number-->$number", Toast.LENGTH_LONG).show()
        // Log.e("TAG", "--->onOutgoingCallEnded")
 
-        number?.let {
+       /* number?.let {
             callDialog(ctx,it)
 
-        }
+        }*/
     }
 
     override fun onMissedCall(ctx: Context?, number: String?, start: Date?) {
@@ -83,20 +83,26 @@ class Callreceiver : PhonecallReceiver()
 
 
                 Log.e("number","-->$search")
-                database.getNickNamed(search).let {
+                database.getCheckedNumber(true,search).let {
 
                     Log.e("dabase-->","-->${it.size}")
 
 
                     if(it.size>0) {
 
-                        delay(2000L)
+                        delay(3000L)
 
-                        val i = Intent(context, DialogCheckActivity::class.java)
-                        i.putExtra("model",it.get(0))
-                        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        // i.flags = FLAG_ACTIVITY_SINGLE_TOP
-                        context.startActivity(i)
+                       // withContext(Dispatchers.Main){
+
+                            val i = Intent(context, DialogCheckActivity::class.java)
+                            i.putExtra("model",it.get(0))
+                            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            // i.flags = FLAG_ACTIVITY_SINGLE_TOP
+                            context.startActivity(i)
+
+                       // }
+
+
                     }
 
 

@@ -11,7 +11,7 @@ import com.example.turecallerdialog.R
 import com.example.turecallerdialog.databinding.ItemSavedContactBinding
 import com.example.turecallerdialog.model.ContactModel
 
-class ContactListAdapter(private val clickListener: (ContactModel) -> Unit) : ListAdapter<ContactModel, ContactListAdapter.ViewHolder>(TaskDiffCallbacks()) {
+class ContactListAdapter(private val clickListener: (ContactModel) -> Unit,val checkChangeListener : (data : ContactModel,isChecked: Boolean)-> Unit) : ListAdapter<ContactModel, ContactListAdapter.ViewHolder>(TaskDiffCallbacks()) {
 
 
     private val mDiffer: AsyncListDiffer<ContactModel> = AsyncListDiffer(this, TaskDiffCallbacks())
@@ -41,13 +41,22 @@ class ContactListAdapter(private val clickListener: (ContactModel) -> Unit) : Li
         }
     }
 
-    class ViewHolder(itemView: ItemSavedContactBinding) : RecyclerView.ViewHolder(itemView.root) {
+    inner class ViewHolder(itemView: ItemSavedContactBinding) : RecyclerView.ViewHolder(itemView.root) {
 
         val bindingItem = itemView
 
         fun bind(task : ContactModel, clickListener : (ContactModel) -> Unit) {
             // itemView.taskTitle.text = task.title
             bindingItem.model = task
+            bindingItem.isVisibleCheckBox = true
+
+
+            bindingItem.checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+                // Code here
+
+                checkChangeListener.invoke(task,isChecked)
+
+            }
             itemView.setOnClickListener { clickListener(task) }
         }
     }

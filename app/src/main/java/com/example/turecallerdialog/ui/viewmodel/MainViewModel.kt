@@ -13,7 +13,7 @@ class MainViewModel constructor(val context: Context,val contactDao : ContactDao
 {
 
 
-    val pagingSource =  { contactDao.getNickNamedContact()}
+    val pagingSource =  { contactDao.getNickNamedContact(true)}
 
 
     fun getNickNameContact() = Pager(

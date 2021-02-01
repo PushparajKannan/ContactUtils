@@ -12,7 +12,12 @@ class ContactViewModel constructor(val context: Context,val contactDao : Contact
 
 
 
-    fun getContact() = DataRepository(context,contactDao).fetchContacts()
+     fun getContact() = contactDao.getAllContact()
+
+
+    suspend fun insertContacts() = DataRepository(context,contactDao).fetchContacts()
+
+
 
     suspend fun insertNickName(model : ContactModel) {
         DataRepository(context,contactDao).insertData(model)

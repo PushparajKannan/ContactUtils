@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
+        <variable
+            name="isVisibleCheckBox"
+            type="Boolean" />
+
         <variable
             name="model"
             type="com.example.turecallerdialog.model.ContactModel" />
@@ -53,10 +59,11 @@
                 android:textColor="@color/purple_500"
                 app:layout_constraintTop_toTopOf="@id/imageLay"
                 app:layout_constraintStart_toEndOf="@id/imageLay"
+                app:layout_constraintBottom_toTopOf="@id/number"
                 android:layout_marginLeft="16dp"
                 tools:text="Pushparaj Kannan"/>
 
-            <com.google.android.material.textview.MaterialTextView
+           <!-- <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/originalName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -65,7 +72,7 @@
                 app:layout_constraintTop_toBottomOf="@id/appName"
                 app:layout_constraintStart_toEndOf="@id/imageLay"
                 android:layout_marginLeft="16dp"
-                tools:text="Pushparaj Kannan"/>
+                tools:text="Pushparaj Kannan"/>-->
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/number"
@@ -74,6 +81,7 @@
                 android:text="@{String.valueOf(model.phoneNumber)}"
                 app:layout_constraintBottom_toBottomOf="@id/imageLay"
                 app:layout_constraintStart_toEndOf="@id/imageLay"
+                app:layout_constraintTop_toBottomOf="@id/appName"
                 android:layout_marginLeft="16dp"
                 android:textSize="14sp"
                 tools:text="97789190940"
@@ -90,9 +98,22 @@
 
         <View
             android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_width="0dp"
+            android:layout_height=".5dp"
+            android:layout_marginLeft="@dimen/dimen_16dp"
+            app:layout_constraintWidth_percent=".85"
+            android:layout_marginRight="@dimen/dimen_16dp"
             android:background="@color/purple_200"/>
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{model.isChecked}"
+            android:visibility="@{isVisibleCheckBox ? View.VISIBLE : View.GONE }"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <androidx.constraintlayout.helper.widget.Flow
             android:layout_width="match_parent"

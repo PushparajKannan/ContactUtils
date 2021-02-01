@@ -21,9 +21,14 @@ abstract class PhonecallReceiver : BroadcastReceiver() {
             override fun onCallStateChanged(state: Int, incomingNumber: String) {
                 super.onCallStateChanged(state, incomingNumber)
 
+                println("incomingNumber : $incomingNumber")
+
+                if(!incomingNumber.equals("") && !incomingNumber.equals(null) ){
+                    savedNumber = incomingNumber
+                }
+
                 onCallStateChanged(context, state, incomingNumber)
 
-                println("incomingNumber : $incomingNumber")
             }
         }, PhoneStateListener.LISTEN_CALL_STATE)
 
@@ -47,15 +52,19 @@ abstract class PhonecallReceiver : BroadcastReceiver() {
                 isIncoming = true
                 callStartTime = Date()
                 savedNumber = number
-                onIncomingCallStarted(context, number, callStartTime)
+                onIncomingCallStarted(context, savedNumber, callStartTime)
             }
-            TelephonyManager.CALL_STATE_OFFHOOK ->
+            TelephonyManager.CALL_STATE_OFFHOOK ->{
+
                 if (lastState != TelephonyManager.CALL_STATE_RINGING) {
                     isIncoming = false
                     callStartTime = Date()
                     onOutgoingCallStarted(context, savedNumber, callStartTime)
                 }
-            TelephonyManager.CALL_STATE_IDLE ->
+            }
+
+            TelephonyManager.CALL_STATE_IDLE ->{
+
                 if (lastState == TelephonyManager.CALL_STATE_RINGING) {
                     onMissedCall(context, savedNumber, callStartTime)
                 } else if (isIncoming) {
@@ -63,6 +72,8 @@ abstract class PhonecallReceiver : BroadcastReceiver() {
                 } else {
                     onOutgoingCallEnded(context, savedNumber, callStartTime, Date())
                 }
+            }
+
         }
         lastState = state
     }

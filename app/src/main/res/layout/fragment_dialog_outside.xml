@@ -11,88 +11,110 @@
             type="com.example.turecallerdialog.model.ContactModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/dimen_16dp"
+        android:layout_margin="@dimen/dimen_8dp">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/close"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_baseline_close_24"/>
-
-
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/dummyname"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{model.dummyName}"
-            tools:text="Pushparajkannan"
-            android:layout_margin="16dp"
-            android:textSize="18sp"
-            app:layout_constraintStart_toEndOf="@id/imageLay"
-            app:layout_constraintTop_toTopOf="@id/imageLay"
-            app:layout_constraintBottom_toBottomOf="@id/imageLay"
-            android:textColor="@color/black"/>
-
-        <!--<com.google.android.material.textview.MaterialTextView
-            app:layout_constraintTop_toBottomOf="@id/dummyname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/dummyname"
-            android:text="Kannan"
-            android:textSize="10sp"/>-->
-
-
-
-
-
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/phonenumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{model.phoneNumber}"
-            tools:text="9789190940"
-            android:gravity="center_vertical"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:drawablePadding="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/imageLay"
-            android:drawableLeft="@drawable/ic_baseline_local_phone_24"
-            app:layout_constraintTop_toBottomOf="@id/imageLay"/>
-
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/imageLay"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="16dp"
-            app:cardBackgroundColor="#f1f1f1"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
 
             <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_baseline_person_24"/>
+                android:id="@+id/close"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="@dimen/dimen_24dp"
+                android:layout_height="@dimen/dimen_24dp"
+                android:layout_margin="8dp"
+                app:tint="@color/purple_500"
+                android:padding="@dimen/dimen_4dp"
+                android:background="@drawable/ic_circle"
+                android:src="@drawable/ic_baseline_close_24"/>
 
-        </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/dummyname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{model.dummyName}"
+                tools:text="Pushparajkannan"
+                android:layout_margin="16dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                app:layout_constraintStart_toEndOf="@id/imageLay"
+                app:layout_constraintTop_toTopOf="@id/imageLay"
+                app:layout_constraintBottom_toBottomOf="@id/imageLay"
+                android:textColor="@color/black"/>
+
+            <!--<com.google.android.material.textview.MaterialTextView
+                app:layout_constraintTop_toBottomOf="@id/dummyname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/dummyname"
+                android:text="Kannan"
+                android:textSize="10sp"/>-->
+
+
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:background="@color/purple_500"
+                app:layout_constraintWidth_percent=".7"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                app:layout_constraintStart_toStartOf="@id/dummyname"
+                app:layout_constraintTop_toBottomOf="@id/dummyname"/>
+
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/phonenumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.phoneNumber}"
+                tools:text="9789190940"
+                android:textSize="18sp"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:drawablePadding="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/dummyname"
+                app:layout_constraintTop_toBottomOf="@id/view"/>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/imageLay"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="16dp"
+                app:cardBackgroundColor="#f1f1f1"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_baseline_person_24"/>
+
+            </com.google.android.material.card.MaterialCardView>
 
 
 
 
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
 </layout>

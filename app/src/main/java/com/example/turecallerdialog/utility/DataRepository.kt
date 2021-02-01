@@ -16,10 +16,8 @@ class DataRepository(val context: Context,val database : ContactDao)
 {
 
 
-    fun fetchContacts(): LiveData<List<ContactModel>> {
+   suspend fun fetchContacts() {
 
-
-        val liveData = MutableLiveData<List<ContactModel>>()
 
         val data =  ArrayList<ContactModel>()
 
@@ -45,15 +43,18 @@ class DataRepository(val context: Context,val database : ContactDao)
 
                         phoneNo = phoneNo.replace("\\s".toRegex(), "")
 
+
                         Log.e("contact", "getAllContacts: $name $phoneNo")
 
-                        val contact = ContactModel(phoneNo,name,"")
+                        val contact = ContactModel(phoneNo,name,name,false)
 
                        // contact.originalName =  name
                        /// contact.phoneNumber = phoneNo
                         //contact.dummyName =""
 
-                        data.add(contact)
+                        if(!data.contains(contact)){
+                            data.add(contact)
+                        }
 
 
                     }
@@ -64,15 +65,38 @@ class DataRepository(val context: Context,val database : ContactDao)
 
         }
 
-        liveData.value = data
 
-        return liveData
-    }
+
+       withContext(Dispatchers.IO){
+           insertAllData(data)
+
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+   }
 
     suspend fun insertData(model : ContactModel)
     {
         withContext(Dispatchers.IO){
             database.insert(model)
+        }
+
+    }
+
+    suspend fun insertAllData(data : List<ContactModel>)
+    {
+        withContext(Dispatchers.IO){
+            database.insertAll(data)
         }
 
     }

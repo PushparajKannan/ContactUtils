@@ -30,7 +30,6 @@ class DialogCheckActivity : BaseActivity<ActivityDialogCheckBinding>(R.layout.ac
                 finish()
             }
 
-
             newFragment.show(supportFragmentManager,OutSideDialogFragment.TAG)
 
 

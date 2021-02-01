@@ -32,6 +32,7 @@ class NickNameApadter(val listener : (ContactModel) -> Unit) : PagingDataAdapter
         fun bind(task: ContactModel, clickListener: (ContactModel) -> Unit) {
             // itemView.taskTitle.text = task.title
             bindingItem.model = task
+            bindingItem.isVisibleCheckBox = false
             itemView.setOnClickListener { clickListener(task) }
         }
     }
