@@ -3,10 +3,7 @@ package com.example.turecallerdialog.database.dao
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.paging.PagingSource
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.turecallerdialog.model.ContactModel
 
 
@@ -18,12 +15,15 @@ interface ContactDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(repos: ContactModel)
 
+    @Update(entity = ContactModel::class)
+    suspend fun update(repos: ContactModel)
+
     @Query("SELECT * FROM contact WHERE isChecked LIKE :checked ORDER BY dummyName DESC")
     fun getNickNamedContact(checked : Boolean): PagingSource<Int, ContactModel>
 
 
 
-    @Query("SELECT * FROM contact ORDER BY dummyName DESC")
+    @Query("SELECT * FROM contact ORDER BY dummyName ASC")
     fun getAllContact(): LiveData<List<ContactModel>>
 
 

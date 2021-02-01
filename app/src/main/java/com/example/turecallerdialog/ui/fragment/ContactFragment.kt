@@ -1,5 +1,7 @@
 package com.example.turecallerdialog.ui.fragment
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +16,7 @@ import com.example.turecallerdialog.R
 import com.example.turecallerdialog.adapter.ContactListAdapter
 import com.example.turecallerdialog.database.AppDatabase
 import com.example.turecallerdialog.databinding.FragmentContactBinding
+import com.example.turecallerdialog.ui.activity.HomeActivity
 import com.example.turecallerdialog.ui.viewmodel.ContactViewModel
 import com.example.turecallerdialog.utility.setCollapsingToolbarLayoutTitle
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -24,6 +27,11 @@ import kotlinx.coroutines.withContext
 class ContactFragment  :  Fragment() {
 
     lateinit var binding : FragmentContactBinding
+
+    val activityContext : HomeActivity by lazy {
+        (activity as HomeActivity)
+    }
+
 
     val viewModel :  ContactViewModel by lazy {
 
@@ -79,8 +87,8 @@ class ContactFragment  :  Fragment() {
             data, isChecked ->
 
             lifecycleScope.launch(Dispatchers.IO){
-
                 data.isChecked = isChecked
+
                 viewModel.insertNickName(model = data)
 
             }
@@ -88,25 +96,14 @@ class ContactFragment  :  Fragment() {
         })
 
 
-
-            viewModel.getContact().value.let {
-
-                when(it) {
-                    null ->{
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            viewModel.insertContacts()
-                        }
-                    }
-
-                    else -> {
-
-                    }
-
-                }
-
-
-
+        if(activityContext.prefrence.readData("contactInserted","0").equals("0")){
+            activityContext.prefrence.addData("contactInserted","1")
+            lifecycleScope.launch(Dispatchers.IO) {
+                viewModel.insertContacts()
             }
+        }
+
+
 
 
 
@@ -115,6 +112,7 @@ class ContactFragment  :  Fragment() {
 
 
         viewModel.getContact().observe(viewLifecycleOwner, Observer { data ->
+
 
 
             Log.e("Observed", "-->")

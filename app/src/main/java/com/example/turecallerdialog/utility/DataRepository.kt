@@ -6,9 +6,11 @@ import android.provider.ContactsContract
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
 import com.example.turecallerdialog.database.dao.ContactDao
 import com.example.turecallerdialog.model.ContactModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
@@ -43,6 +45,8 @@ class DataRepository(val context: Context,val database : ContactDao)
 
                         phoneNo = phoneNo.replace("\\s".toRegex(), "")
 
+                        phoneNo = phoneNo.replace("-".toRegex(), "")
+
 
                         Log.e("contact", "getAllContacts: $name $phoneNo")
 
@@ -66,6 +70,30 @@ class DataRepository(val context: Context,val database : ContactDao)
         }
 
 
+       /*database.getAllContact().value.let {
+
+
+         when(it) {
+               null -> {
+                   lifecycleScope.launch(Dispatchers.IO) {
+                       viewModel.insertContacts()
+                   }
+
+                   Log.e("ContactInserted","-->")
+               }
+
+
+               else -> {
+
+
+               }
+
+           }
+
+
+
+       }*/
+
 
        withContext(Dispatchers.IO){
            insertAllData(data)
@@ -88,7 +116,7 @@ class DataRepository(val context: Context,val database : ContactDao)
     suspend fun insertData(model : ContactModel)
     {
         withContext(Dispatchers.IO){
-            database.insert(model)
+            database.update(model)
         }
 
     }

@@ -25,7 +25,10 @@ abstract class PhonecallReceiver : BroadcastReceiver() {
 
                 if(!incomingNumber.equals("") && !incomingNumber.equals(null) ){
                     savedNumber = incomingNumber
+
                 }
+                println("savedNumber : $savedNumber")
+
 
                 onCallStateChanged(context, state, incomingNumber)
 
